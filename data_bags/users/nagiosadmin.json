@@ -1,0 +1,8 @@
+{
+  "id": "nagiosadmin",
+  "groups": "sysadmin",
+  "htpasswd": "$apr1$9XHVxiL7$TQW7Dv8HceZzwitz3TPZZ.",
+  "nagios" : {
+    "email" : "nramirez@hmbnet.com"
+  }
+}
