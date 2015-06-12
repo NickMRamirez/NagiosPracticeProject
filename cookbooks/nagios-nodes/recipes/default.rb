@@ -4,6 +4,8 @@
 #
 # Copyright (c) Nick Ramirez, All Rights Reserved.
 
+include_recipe 'nagios-nodes::perl_modules'
+
 def return_if_path_contains(cookbook_files, look_for)
   cookbook_files.select { |f| f['path'] =~ /#{look_for}/ }
 end
@@ -45,14 +47,12 @@ end
 
 # --------------Define commands--------------
 commands_dir = File.join(conf_dir, 'commands')
-
 directory commands_dir do
   owner 'nagios'
   group 'nagios'
 end
 
 commands_files = return_if_path_contains(all_cookbook_files, '/default/commands')
-
 commands_files.each do |file|
   cookbook_file File.join(commands_dir, file['name']) do
     source file['path'].sub('files/default/', '')
@@ -61,16 +61,22 @@ commands_files.each do |file|
   end
 end
 
+perl_files = return_if_path_contains(all_cookbook_files, '/default/perl_files')
+perl_files.each do |file|
+  cookbook_file File.join('/usr/lib/nagios/plugins', file['name']) do
+    source file['path'].sub('files/default/', '')
+    mode '777'
+  end
+end
+
 # --------------Define services--------------
 services_dir = File.join(conf_dir, 'services')
-
 directory services_dir do
   owner 'nagios'
   group 'nagios'
 end
 
 services_files = return_if_path_contains(all_cookbook_files, '/default/services')
-
 services_files.each do |file|
   cookbook_file File.join(services_dir, file['name']) do
     source file['path'].sub('files/default/', '')

@@ -5,3 +5,5 @@ license          'all_rights'
 description      'Installs/Configures nagios-nodes'
 long_description 'Installs/Configures nagios-nodes'
 version          '0.1.0'
+
+depends 'cpan'
